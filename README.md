@@ -1,3 +1,26 @@
+# Keda Deployment on Kind K8s Cluster
+
+More details about Keda can be found here https://keda.sh/, This deployment helps to understand how keda works, the deployment explains how a k8s pod scales based on the provided load
+
+## How to Deploy and Test
+
+```bash
+terraform init
+terraform plan -out tf.plan
+terraform apply tf.plan
+
+# once the deployment is done
+
+kubectl get po -n default # nginx deployment will be scaled down to 0 because in the scaledobject configuration we set min replica to 0
+kubectl port-forward svc/keda-add-ons-http-interceptor-proxy -n keda 30910:8080 # we make sure all the request to nginx service comes in thru keda-add-ons-http-interceptor-proxy
+
+# Open a new window  
+
+curl localhost:30910 -H 'Host: test-host.com' # mimic as if the request is coming from test-host.com
+
+kubectl get po -n default # now you can see the po being scaled up and the replica count increased to 1
+```
+
 ## Requirements
 
 | Name | Version |
@@ -31,10 +54,4 @@ No modules.
 | [kubectl_manifest.nginx-svc](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [time_sleep.wait](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
-## Inputs
 
-No inputs.
-
-## Outputs
-
-No outputs.

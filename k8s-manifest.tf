@@ -1,3 +1,5 @@
+# Deployment manifest to deploy a nginx pod
+
 resource "kubectl_manifest" "nginx-deployment" {
   
   yaml_body = <<YAML
@@ -26,6 +28,8 @@ YAML
 
 depends_on = [ helm_release.http-add-on ]
 }
+
+# Expose the nginx deployment as a node port service
 
 resource "kubectl_manifest" "nginx-svc" {
   
@@ -57,6 +61,7 @@ spec:
 #   depends_on = [ kubectl_manifest.nginx-svc ]
 # }
 
+# Keda http scaled object creation and autoscaling configurations
 
 resource "kubectl_manifest" "keda-scaled-object" {
   
