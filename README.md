@@ -2,6 +2,15 @@
 
 More details about Keda can be found here https://keda.sh/, This deployment helps to understand how keda works, the deployment explains how a k8s pod scales based on the provided load
 
+
+## Things you need before you start
+
+https://docs.docker.com/desktop/install/mac-install/ - Docker Desktop 
+
+https://kind.sigs.k8s.io/docs/user/quick-start/#installing-with-a-package-manager - KIND 
+
+https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli - Terraform
+
 ## How to Deploy and Test
 
 ```bash
