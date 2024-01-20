@@ -33,7 +33,6 @@ resource "helm_release" "keda" {
   chart      = "keda"
   namespace  = "keda"
   create_namespace = true
-  # uninstall: https://keda.sh/docs/2.10/deploy/#helm
 }
 
 resource "helm_release" "http-add-on" {
@@ -43,4 +42,13 @@ resource "helm_release" "http-add-on" {
     namespace   = "keda"
     create_namespace = false
     depends_on = [ helm_release.keda ]
+}
+
+resource "helm_release" "kube-prometheus" {
+  name       = "kube-prometheus-stackr"
+  namespace  = "prometheus"
+  create_namespace = true
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  depends_on = [ helm_release.http-add-on ]
 }
